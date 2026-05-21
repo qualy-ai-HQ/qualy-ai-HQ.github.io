@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qiang Huang | University of Southern California</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 400;
+    background: #fff;
+    color: #222;
+    line-height: 1.75;
+  }
+
+  a { color: #174ea6; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── TOP NAV ── */
+  #topnav {
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0 2rem;
+    position: sticky; top: 0; z-index: 50;
+  }
+  #topnav ul {
+    list-style: none;
+    display: flex; flex-wrap: wrap; gap: 0;
+    max-width: 1040px; margin: 0 auto;
+  }
+  #topnav ul li a {
+    display: block;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #444;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  #topnav ul li a:hover,
+  #topnav ul li a.active {
+    color: #174ea6;
+    border-bottom-color: #174ea6;
+    text-decoration: none;
+  }
+
+  /* ── LAYOUT ── */
+  #wrapper {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 2.4rem 2rem 4rem;
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position: sticky; top: 52px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0;
+  }
+  .sidebar-avatar {
+    width: 130px; height: 160px; border-radius: 80%;
+    object-fit: cover;
+    background: linear-gradient(135deg, #c8d8f0 0%, #e8eef8 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Source Serif 4', serif;
+    font-size: 3.2rem; color: #174ea6; font-weight: 600;
+    margin-bottom: 1rem;
+    border: 3px solid #e8eef8;
+    flex-shrink: 0;
+  }
+  .sidebar-name {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.25rem; font-weight: 600;
+    text-align: center; margin-bottom: 0.35rem; color: #111;
+  }
+  .sidebar-role {
+    font-size: 0.82rem; color: #555;
+    text-align: center; line-height: 1.55;
+    margin-bottom: 0.9rem;
+  }
+  .sidebar-role a { color: #555; }
+  .sidebar-role a:hover { color: #174ea6; }
+  .sidebar-email {
+    font-size: 0.8rem; color: #174ea6;
+    text-align: center; margin-bottom: 1.1rem;
+    word-break: break-all;
+  }
+  .sidebar-icons {
+    display: flex; gap: 0.6rem; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 1.4rem;
+  }
+  .sidebar-icons a {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 6px;
+    border: 1px solid #d8d8d8; color: #555;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    font-size: 0.75rem; font-weight: 600;
+  }
+  .sidebar-icons a:hover {
+    border-color: #174ea6; color: #174ea6;
+    background: #f0f4fd; text-decoration: none;
+  }
+  .sidebar-icons svg { width: 16px; height: 16px; }
+
+  /* badges */
+  .sidebar-badges {
+    display: flex; flex-direction: column; gap: 0.35rem;
+    width: 100%; margin-top: 0.5rem;
+  }
+  .sbadge {
+    font-size: 0.74rem; color: #555;
+    background: #f5f5f5; border: 1px solid #e5e5e5;
+    border-radius: 4px; padding: 0.25rem 0.6rem;
+    text-align: center; line-height: 1.4;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main { min-width: 0; }
+
+  h1 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 2rem; font-weight: 600;
+    color: #111; margin-bottom: 0.1rem;
+  }
+  h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.25rem; font-weight: 600;
+    color: #111;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.4rem;
+    margin-top: 2.4rem; margin-bottom: 1rem;
+  }
+  h3 {
+    font-size: 0.95rem; font-weight: 600;
+    color: #222; margin-bottom: 0.35rem;
+  }
+
+  p { margin-bottom: 0.8rem; font-size: 0.93rem; }
+
+  /* ── RESEARCH INTERESTS ── */
+  .interests-list {
+    list-style: none; padding: 0;
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .interests-list li {
+    font-size: 0.93rem; padding-left: 1.1rem; position: relative;
+    color: #333;
+  }
+  .interests-list li::before {
+    content: '▸';
+    position: absolute; left: 0;
+    color: #174ea6; font-size: 0.75rem; top: 0.2rem;
+  }
+
+  /* ── NEWS ── */
+  .news-list {
+    list-style: none; padding: 0;
+    display: flex; flex-direction: column; gap: 0.55rem;
+  }
+  .news-list li {
+    font-size: 0.88rem; line-height: 1.65;
+    color: #333; padding-left: 0;
+  }
+  .news-list li a { color: #174ea6; }
+  .news-date {
+    font-weight: 600; color: #111;
+  }
+  .news-tag {
+    display: inline-block;
+    font-size: 0.72rem; font-weight: 600;
+    padding: 0.1rem 0.5rem; border-radius: 3px;
+    margin-right: 0.3rem; vertical-align: middle;
+    letter-spacing: 0.02em; white-space: nowrap;
+  }
+  .nt-award  { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+  .nt-pub    { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+  .nt-event  { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+  .nt-grad   { background: #ede9fe; color: #4c1d95; border: 1px solid #c4b5fd; }
+  .nt-book   { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+  /* ── PUBLICATIONS ── */
+  .pub-list {
+    list-style: none; padding: 0;
+    counter-reset: pub-counter;
+    display: flex; flex-direction: column; gap: 0.9rem;
+  }
+  .pub-list li {
+    font-size: 0.88rem; line-height: 1.65;
+    color: #333;
+    padding-left: 2.2rem;
+    position: relative;
+  }
+  .pub-list li::before {
+    counter-increment: pub-counter;
+    content: counter(pub-counter) ".";
+    position: absolute; left: 0;
+    color: #888; font-weight: 600; font-size: 0.8rem;
+    top: 0.18rem; width: 1.8rem; text-align: right;
+  }
+  .pub-list li em { font-style: italic; color: #444; }
+  .pub-list li a { color: #174ea6; }
+  .pub-list li strong { font-weight: 600; color: #111; }
+
+  /* year pill */
+  .pub-year {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.7rem; background: #f0f4fd;
+    color: #174ea6; border: 1px solid #c7d7f5;
+    border-radius: 3px; padding: 0.05rem 0.4rem;
+    margin-left: 0.4rem; vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  /* ── BOOK ── */
+  .book-block {
+    display: flex; gap: 1.6rem; align-items: flex-start;
+    background: #f8f9fb; border: 1px solid #e4e8f0;
+    border-radius: 8px; padding: 1.4rem;
+    margin-top: 0.5rem;
+  }
+.book-thumb {
+    flex-shrink: 0;
+    width: 180px;        /* ← adjust width to taste */
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 2px 4px 12px rgba(0,0,0,0.15);
+    object-fit: cover;
+  }
+ 
+  .book-info h3 { font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .book-info p  { font-size: 0.85rem; color: #555; margin-bottom: 0.6rem; }
+  .book-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .book-links a {
+    font-size: 0.78rem; padding: 0.25rem 0.7rem;
+    border: 1px solid #c7d7f5; border-radius: 4px;
+    color: #174ea6; background: #fff;
+    transition: background 0.15s;
+  }
+  .book-links a:hover { background: #f0f4fd; text-decoration: none; }
+
+  /* ── EDUCATION ── */
+  .edu-list { list-style: none; padding: 0; }
+  .edu-list li {
+    font-size: 0.9rem; padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex; gap: 1rem; align-items: baseline;
+  }
+  .edu-list li:last-child { border-bottom: none; }
+  .edu-deg { font-weight: 500; color: #111; flex: 1; }
+  .edu-school { color: #666; font-size: 0.85rem; min-width: 200px; text-align: right; }
+
+  /* ── RESEARCH CARDS ── */
+  .rc-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem; margin-top: 0.3rem;
+  }
+  .rc {
+    border: 1px solid #e4e8f0; border-radius: 7px;
+    padding: 1rem 1rem 0.9rem; background: #fafbfd;
+    transition: border-color 0.15s;
+  }
+  .rc:hover { border-color: #174ea6; }
+  .rc h3 { font-size: 0.84rem; color: #174ea6; margin-bottom: 0.4rem; }
+  .rc p  { font-size: 0.8rem; color: #555; line-height: 1.6; margin: 0; }
+
+  /* ── HONORS ── */
+  .honors-list { list-style: none; padding: 0; }
+  .honors-list li {
+    font-size: 0.88rem; padding: 0.4rem 0;
+    border-bottom: 1px solid #f0f0f0; color: #333;
+  }
+  .honors-list li:last-child { border-bottom: none; }
+
+  /* ── SERVICE ── */
+  .service-list {
+    list-style: none; padding: 0;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .service-list li {
+    font-size: 0.88rem; line-height: 1.7; color: #333;
+    padding: 0.45rem 0 0.45rem 1.1rem;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+  }
+  .service-list li:last-child { border-bottom: none; }
+  .service-list li::before {
+    content: '▸'; position: absolute; left: 0;
+    color: #174ea6; font-size: 0.72rem; top: 0.55rem;
+  }
+  .service-list li em { font-style: italic; color: #444; }
+
+  /* ── GROUP MEMBERS ── */
+  .group-current {
+    display: flex; gap: 1.2rem; flex-wrap: wrap;
+    margin-bottom: 1.6rem;
+  }
+  .member-card {
+    border: 1px solid #e4e8f0; border-radius: 8px;
+    padding: 1rem 1.2rem; background: #f8f9fb;
+    min-width: 180px; flex: 1;
+  }
+  .member-name { font-weight: 600; font-size: 0.9rem; color: #111; margin-bottom: 0.15rem; }
+  .member-role { font-size: 0.78rem; color: #174ea6; margin-bottom: 0.1rem; }
+  .member-year { font-size: 0.75rem; color: #888; }
+
+  .group-list {
+    list-style: none; padding: 0;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .group-list li {
+    font-size: 0.87rem; line-height: 1.65; color: #333;
+    padding: 0.4rem 0; border-bottom: 1px solid #f0f0f0;
+  }
+  .group-list li:last-child { border-bottom: none; }
+  .group-list li em { font-style: italic; color: #555; }
+  .group-subhead {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em;
+    text-transform: uppercase; color: #888;
+    margin-top: 1.4rem; margin-bottom: 0.5rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 2rem;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.78rem; color: #999;
+  }
+  footer a { color: #888; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    #wrapper { grid-template-columns: 1fr; gap: 2rem; }
+    #sidebar { position: static; }
+    .rc-grid { grid-template-columns: 1fr; }
+    #topnav ul li a { padding: 0.7rem 0.7rem; font-size: 0.82rem; }
+    .edu-list li { flex-direction: column; gap: 0.1rem; }
+    .edu-school { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── TOP NAV ─── -->
+<nav id="topnav">
+  <ul>
+    <li><a href="#about" class="active">Home</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#news">News</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#book">Book</a></li>
+    <li><a href="#service">Service</a></li>
+    <li><a href="#group">Group</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#honors">Honors</a></li>
+  </ul>
+</nav>
+
+<!-- ─── WRAPPER ─── -->
+<div id="wrapper">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside id="sidebar">
+<img src="hq.jpg" class="sidebar-avatar" alt="Qiang Huang">
+    <div class="sidebar-name">Prof. Qiang S. Huang</div>
+    <div class="sidebar-role">
+      Professor, FIISE · FASME · SMNAI<br>
+      <a href="https://usc.edu" target="_blank">University of Southern California</a>
+    </div>
+    <div class="sidebar-email">
+      <a href="mailto:qiang.huang@usc.edu">Email: qiang.huang@usc.edu</a>
+    </div>
+
+    <!-- icon row -->
+    <div class="sidebar-icons">
+      <!-- Google Scholar -->
+      <a href="https://scholar.google.com/citations?user=T6DGtfMAAAAJ&hl=en" target="_blank" title="Google Scholar">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5h3.5v8H8v-5h8v5h4.5V9.5H24L12 0z"/></svg>
+      </a>
+      <!-- GitHub -->
+      <a href="https://github.com/qualy-ai-HQ" target="_blank" title="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.3-1.23 3.3-1.23.65 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/qiang-huang-10316115" target="_blank" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.8 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+      </a>
+     <!-- ORCID -->
+  <a href="https://orcid.org/0000-0001-7826-4792" target="_blank" title="ORCID">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.516.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.016-5.325 5.016h-3.919V7.416zm1.444 1.303v7.444h2.297c2.359 0 3.588-1.444 3.588-3.722 0-2.016-1.091-3.722-3.588-3.722h-2.297z" style="fill:#a6ce39"/></svg>
+  </a>
+  <!-- ResearchGate -->
+  <a href="https://www.researchgate.net/profile/Qiang-Huang-7?ev=hdr_xprf" target="_blank" title="ResearchGate">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.586 0c-.818 0-1.508.19-2.073.565-.563.377-.97.936-1.213 1.68a12.66 12.66 0 0 0-.35 1.134 6.58 6.58 0 0 0-.13.794 8.98 8.98 0 0 0-.036.694c0 .423.044.864.13 1.324.088.46.232.895.43 1.308.2.413.46.78.782 1.102.323.323.716.58 1.18.773.464.193 1.006.29 1.627.29.9 0 1.636-.197 2.205-.59.57-.393.923-.936 1.06-1.628h-2.633c-.075.29-.232.512-.473.666-.24.154-.533.231-.876.231-.508 0-.902-.155-1.18-.465-.277-.31-.43-.745-.455-1.305h5.67c.012-.18.018-.338.018-.474 0-.89-.148-1.67-.443-2.342-.295-.67-.717-1.186-1.265-1.546C21.067.18 20.393 0 19.586 0zm-.01 1.747c.434 0 .789.12 1.066.36.276.24.458.59.544 1.048h-3.252c.1-.47.295-.823.586-1.057.29-.235.645-.351 1.056-.351zM0 .19v23.625h7.297c1.308 0 2.467-.215 3.477-.645 1.01-.43 1.872-1.02 2.587-1.768.715-.748 1.26-1.627 1.636-2.638.375-1.01.563-2.104.563-3.282 0-1.178-.19-2.267-.563-3.267-.375-1-.92-1.873-1.636-2.621-.715-.748-1.578-1.332-2.587-1.753C9.764.42 8.605.19 7.297.19H0zm3.43 3.093h3.617c.807 0 1.54.131 2.198.394.658.263 1.222.636 1.69 1.12.47.484.832 1.06 1.088 1.727.255.668.383 1.407.383 2.217 0 .81-.128 1.554-.383 2.232-.256.677-.619 1.258-1.088 1.742-.468.484-1.032.856-1.69 1.119-.658.263-1.39.394-2.198.394H3.43V3.283z" style="fill:#00ccbb"/></svg>
+  </a>
+      <!-- CV -->
+      <a href="https://huanglab.usc.edu" target="_blank" title="Lab Website" style="font-size:0.65rem;font-family:monospace;font-weight:700;letter-spacing:0;">LAB</a>
+    </div>
+
+    <div class="sidebar-badges">
+      
+    </div>
+  </aside>
+
+  <!-- ─── MAIN ─── -->
+  <main id="main">
+
+    <section id="about">
+      <h1>Prof. Qiang Sean Huang</h1>
+      <p style="color:#555; font-size:0.9rem; margin-bottom:1.2rem;">
+        Professor · Daniel J. Epstein Department of Industrial and Systems Engineering &amp;<br>
+        Mork Family Department of Chemical Engineering &amp; Materials Science · USC
+      </p>
+      <p>
+        My research focuses on domain-informed machine learning for smart manufacturing and industrial AI. I direct the <a href="https://huanglab.usc.edu" target="_blank">Huang Lab</a>
+        at USC.
+      </p>
+    </section>
+
+    <!-- ─── RESEARCH ─── -->
+    <section id="research">
+      <h2>Research Interests</h2>
+      <ul class="interests-list">
+        <li><strong>Agentic AI for Production Quality Control</strong> </li>
+        <li><strong>Domain-informed Machine Learning for Smart Manufacturing</strong> </li>
+        <li><strong>Causal Machine Learning for Engineering Systems</strong> </li>
+      </ul>
+
+      <div class="rc-grid" style="margin-top:1.2rem;">
+        <div class="rc">
+          <h3>Agentic AI &amp; 3D Printing Quality</h3>
+          <p>Model pre-training and fine-tuning for agentic 3D printing with prescriptive correction. </p>
+        </div>
+        <div class="rc">
+          <h3>3D Freeform Shape Deviation Learning</h3>
+          <p>Small-sample learning and prediction for geometric accuracy of 3D-printed products.</p>
+        </div>
+        <div class="rc">
+          <h3>Causal &amp; Transfer Learning</h3>
+          <p>Cross-process model transfer and causal inference for robust quality control.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── NEWS ─── -->
+    <section id="news">
+      <h2>News</h2>
+      <ul class="news-list">
+        <li>
+          <span class="news-date">[Nov. 2025]</span>
+          <span class="news-tag nt-grad">Graduation</span>
+          Chris Henson successfully defended his dissertation <em>"Smart Cyber-Physical 3D Printing System for Real-Time Quality Analysis and Defect Detection."</em> Dr. Henson is now at <strong>Nvidia</strong>. Congratulations!
+        </li>
+        <li>
+          <span class="news-date">[Nov. 2025]</span>
+          <span class="news-tag nt-event">Editorial</span>
+          Dr. Huang joins the <strong>Senior Editorial Board</strong> of <em>IEEE Transactions on Automation Science and Engineering</em>.
+        </li>
+        <li>
+          <span class="news-date">[Oct. 2025]</span>
+          <span class="news-tag nt-pub">New Preprint</span>
+          Peng Wang &amp; Minghao Gu: <a href="https://arxiv.org/abs/2510.19155" target="_blank">"Feature Space Adaptation for Robust Model Fine-tuning,"</a> arXiv 2510.19155.
+        </li>
+        <li>
+          <span class="news-date">[Aug. 2025]</span>
+          <span class="news-tag nt-event">Conference</span>
+          <a href="http://2025.ieeecase.org" target="_blank">2025 IEEE CASE</a> held in Downtown Los Angeles, Aug. 17–21. Dr. Huang served as <strong>General Chair</strong>.
+        </li>
+        <li>
+          <span class="news-date">[Jun. 2025]</span>
+          <span class="news-tag nt-book">Book</span>
+          <em><a href="https://link.springer.com/book/9783031916304" target="_blank">Domain-informed Machine Learning for Smart Manufacturing</a></em>, Springer. Order at <a href="https://www.amazon.com/Domain-informed-Machine-Learning-Smart-Manufacturing/dp/3031916301/" target="_blank">Amazon</a>.
+        </li>
+        <li>
+          <span class="news-date">[2025]</span>
+          <span class="news-tag nt-grad">Faculty Hire</span>
+          Weizhi Lin joins <strong>San José State University</strong> as a Tenure-track Assistant Professor. Congratulations!
+        </li>
+        <li>
+          <span class="news-date">[Jan. 2025]</span>
+          <span class="news-tag nt-pub">New Paper</span>
+          Weizhi Lin &amp; Huang: <em>"Automated Surface Patch Extraction for 3D Printing Qualification,"</em> <em>IEEE TASE</em>. [<a href="https://doi.org/10.1109/TASE.2025.3535900" target="_blank">DOI</a>]
+        </li>
+        <li>
+          <span class="news-date">[Oct. 2024]</span>
+          <span class="news-tag nt-award">Award</span>
+          Weizhi Lin wins the <strong>INFORMS QSR Best Poster</strong> (26 participants, 18 universities) for "Automated Surface Patch Extraction for 3D Printing Qualification."
+        </li>
+        <li>
+          <span class="news-date">[Mar. 2024]</span>
+          <span class="news-tag nt-pub">New Paper</span>
+          Weizhi Lin et al.: <em><a href="https://authors.elsevier.com/a/1ivUc1oFTfw1g" target="_blank">"Finite manufacturing primitives: a representation scheme for additive manufacturing quality assurance,"</a></em> <em>CIRP Annals</em>.
+        </li>
+        <li>
+          <span class="news-date">[Feb. 2024]</span>
+          <span class="news-tag nt-award">Honor</span>
+          Elected <strong>Senior Member</strong> of the National Academy of Inventors (NAI).
+        </li>
+        <li>
+          <span class="news-date">[Jun. 2024]</span>
+          <span class="news-tag nt-event">Grant</span>
+          Former group member Prof. Cesar Ruiz (U. of Oklahoma) leads $55K NSF CMMI grant (2328454/2328455); Prof. Huang is collaborative PI.
+        </li>
+      </ul>
+    </section>
+
+    <!-- ─── PUBLICATIONS ─── -->
+    <section id="publications">
+      <h2>Selected Publications</h2>
+      <p style="font-size:0.83rem; color:#666; margin-bottom:1rem;">* denotes student/post-doc co-author. Full list at <a href="https://huanglab.usc.edu/publications-patents/" target="_blank">huanglab.usc.edu</a>.</p>
+      <ol class="pub-list">
+        <li>
+          Minghao Gu, Cesar Ruiz, <strong>Qiang Huang</strong>, "Surface Quality Characterization, Learning and Prediction for 3D Printed Two-dimensional Free-form Products Through Dimensional Reduction," <em>IEEE Transactions on Automation Science and Engineering</em>, Vol. 23, pp. 4142–4153. <span class="pub-year">2026</span>
+        </li>
+        <li>
+          Weizhi Lin*, <strong>Qiang Huang</strong>, "AINR: Automated Intrinsic Non-Rigid Registration for Accuracy Qualification of Complex Freeform Products in 3D Printing," <em>IISE Transactions on Design and Manufacturing</em>, Vol. 58(6), pp. 738–749. <span class="pub-year">2026</span>
+        </li>
+        <li>
+          Ruiz, Bhatt, Gupta, <strong>Huang</strong>, "Human-Process-Inspired Automated Layer Segmentation for Quality Assessment in Wire-Arc Additive Manufacturing," <em>IEEE TASE</em>, Vol. 23, pp. 2256–2267. [<a href="https://doi.org/10.1109/TASE.2025.3532179" target="_blank">DOI</a>] <span class="pub-year">2026</span>
+        </li>
+        <li>
+          Weizhi Lin*, <strong>Qiang Huang</strong>, "Automated Surface Patch Extraction for 3D Printing Qualification," <em>IEEE TASE</em>, Vol. 22, pp. 11419–11430. [<a href="https://doi.org/10.1109/TASE.2025.3535900" target="_blank">DOI</a>] <span class="pub-year">2025</span>
+        </li>
+        <li>
+          Weizhi Lin*, Yuanxiang Wang*, Stephen Lu, <strong>Qiang Huang</strong>, "Finite manufacturing primitives: a representation scheme for additive manufacturing quality assurance," <em>CIRP Annals – Manufacturing Technology</em>. [<a href="https://authors.elsevier.com/a/1ivUc1oFTfw1g" target="_blank">Link</a>] <span class="pub-year">2024</span>
+        </li>
+        <li>
+          Weizhi Lin*, <strong>Qiang Huang</strong>, "Automated Deviation-Aware Landmark Selection for Freeform Product Accuracy Qualification in 3D Printing," <em>IISE Transactions, Data Science, Quality and Reliability</em>. [<a href="https://doi.org/10.1080/24725854.2023.2280606" target="_blank">DOI</a>] <span class="pub-year">2024</span>
+        </li>
+        <li>
+          <strong>Huang, Q.</strong>, "An Impulse Response Formulation for Small-Sample Learning and Control of Additive Manufacturing Quality," <em>IISE Transactions on Design and Manufacturing</em>, Vol. 55(9), pp. 926–939. [<a href="https://doi.org/10.1080/24725854.2022.2113186" target="_blank">DOI</a>] <span class="pub-year">2023</span>
+        </li>
+        <li>
+          Yuanxiang Wang*, Cesar Ruiz*, <strong>Q. Huang</strong>, "Learning and Predicting Shape Deviations of Smooth and Non-Smooth 3D Geometries through Mathematical Decomposition of Additive Manufacturing," <em>IEEE TASE</em>, Vol. 20(3), pp. 1527–1538. [<a href="https://doi.org/10.1109/TASE.2022.3174228" target="_blank">DOI</a>] <span class="pub-year">2022</span>
+        </li>
+        <li>
+          Cesar Ruiz*, Davoud Jafari, et al., <strong>Qiang Huang</strong>, "Prediction and Control of Product Shape Quality in Wire and Arc Additive Manufacturing Using Generalized Additive Models," <em>ASME J. Manufacturing Science and Engineering</em>, Vol. 144, 111005. [<a href="https://doi.org/10.1115/1.4054721" target="_blank">DOI</a>] <span class="pub-year">2022</span>
+        </li>
+        <li>
+          <strong>Huang</strong>, Wang, Lyu, Lin, "Shape Deviation Generator (SDG) — A Convolution Framework for Learning and Predicting 3D Printing Shape Accuracy," <em>IEEE TASE</em>. [<a href="https://doi.org/10.1109/TASE.2019.2959211" target="_blank">DOI</a>] <span class="pub-year">2019</span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ─── BOOK ─── -->
+    <section id="book">
+      <h2>Book</h2>
+      <div class="book-block">
+      <img src="book.jpg" alt="Domain-informed Machine Learning for Smart Manufacturing" class="book-thumb">
+        <div class="book-info">
+          <h3>Domain-informed Machine Learning for Smart Manufacturing</h3>
+          <p>Qiang Huang · Springer, June 2025 · ISBN 978-3-031-91630-4</p>
+          <p>
+            This book introduces how complicated engineering phenomena and mechanisms are integrated into machine learning problem formulation and methodology development for smart manufacturing. The topics include domain-informed feature representation, dimension reduction for personalized manufacturing, fabrication-aware modeling of additive manufacturing processes, small-sample machine learning for 3D printing quality, optimal compensation of 3D shape deviation in 3D printing, engineering-informed transfer learning for smart manufacturing, and domain-informed predictive modeling for nanomanufacturing quality. 
+          </p>
+          <div class="book-links">
+            <a href="https://www.amazon.com/Domain-informed-Machine-Learning-Smart-Manufacturing/dp/3031916301/" target="_blank">Amazon</a>
+            <a href="https://link.springer.com/book/9783031916304" target="_blank">Springer</a>
+            <a href="https://www.barnesandnoble.com/w/domain-informed-machine-learning-for-smart-manufacturing-qiang-huang/1147185983" target="_blank">Barnes &amp; Noble</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SERVICE ─── -->
+    <section id="service">
+      <h2>Service</h2>
+      <ul class="service-list">
+        <li><strong>Senior Editor</strong>, <em>IEEE Transactions on Automation Science and Engineering</em>, 11/2025 — present.</li>
+        <li><strong>General Chair</strong>, IEEE Conference on Automation Science and Engineering (CASE), August 17–21, 2025, Los Angeles, CA.</li>
+        <li><strong>Lead Editor</strong>, Special Issue of <em>IEEE TASE</em> on IEEE CASE 2025, 2025–2027.</li>
+        <li><strong>Editor</strong>, Conference Editorial Board of IEEE CASE, 2022–2025.</li>
+        <li><strong>Member of Advisory Board</strong>, INFORMS Section on Quality, Statistics, and Reliability, July 2022 — present.</li>
+        <li><strong>Department Editor</strong>, <em>IISE Transactions on Design and Manufacturing</em>, 09/2017 — 08/2020.</li>
+        <li><strong>Associate Editor</strong>, <em>ASME Transactions, Journal of Manufacturing Science and Engineering</em>, 08/2017 — 08/2020.</li>
+        <li><strong>Associate Editor</strong>, <em>IISE Transactions on Design and Manufacturing</em>, 02/2017 — 01/2020.</li>
+        <li><strong>Guest Editor</strong>, <em>IISE Transactions on Design and Manufacturing</em>, Special Issue on Additive Manufacturing, 03/2017 — 03/2018.</li>
+        <li><strong>Member of Editorial Review Board</strong>, <em>Journal of Quality Technology</em>, 09/2016 — 12/2018.</li>
+        <li><strong>Guest Editor</strong>, <em>Journal of Quality Technology</em>, Special Issue on Quality Engineering in Advanced Manufacturing, 2015–2016.</li>
+        <li><strong>Associate Editor</strong>, <em>IEEE Robotics and Automation Letters</em>, 2015 — 12/2016.</li>
+        <li><strong>Associate Editor</strong>, <em>IEEE Transactions on Automation Science and Engineering</em>, 01/2012 — 12/2016.</li>
+        <li><strong>Member</strong> of Scientific Committee (Editorial Board), NAMRI/SME, 2013–2015.</li>
+        <li><strong>Contributing Editor</strong>, InterNano (National Nanomanufacturing Network), 04/2012 — 04/2015.</li>
+        <li><strong>Associate Editor</strong> (Quality, Micro and Nano Manufacturing Systems), <em>SME Journal of Manufacturing Systems</em>, 2008–2011.</li>
+        <li><strong>Council Member</strong>, QSR Section at INFORMS, 2010–2012.</li>
+        <li><strong>Member</strong>: IISE Fellow, ASME Fellow, Senior Member of IEEE, member of INFORMS.</li>
+      </ul>
+    </section>
+
+    <!-- ─── GROUP MEMBERS ─── -->
+    <section id="group">
+      <h2>Group Members</h2>
+
+      <div class="group-subhead">Current Ph.D. Students</div>
+      <div class="group-current">
+        <div class="member-card">
+          <div class="member-name">Minghao Gabriel Gu</div>
+          <div class="member-role">Ph.D. Student</div>
+          <div class="member-year">Joined 2021</div>
+        </div>
+        <div class="member-card">
+          <div class="member-name">Peng Wang</div>
+          <div class="member-role">Ph.D. Student</div>
+          <div class="member-year">Joined 2024</div>
+        </div>
+      </div>
+
+      <div class="group-subhead">Post-doc Research Fellow</div>
+      <ul class="group-list">
+        <li>Dr. Cesar Ruiz · 09/2020 – 06/2022 · Currently Assistant Professor, University of Oklahoma.</li>
+      </ul>
+
+      <div class="group-subhead">Visiting Scholars</div>
+      <ul class="group-list">
+        <li>Dr. Sang Hun Lee, KCC Corporation · Feb 2020 – Jan 2022.</li>
+        <li>Mengqi Fan, Ph.D. student, Tsinghua University · April – October 2019.</li>
+        <li>Ivanna Baturynska, Ph.D. fellow, Norwegian University of Science and Technology · October – December 2019.</li>
+      </ul>
+
+
+
+      <div class="group-subhead">Alumni</div>
+      <ul class="group-list">
+        <li><strong>Dr. Chris Henson</strong> · Ph.D. Dec 2025 · <em>"Smart Cyber-Physical 3D Printing System for Real-time Quality Analysis and Defect Detection"</em> · Software Engineer, Nvidia.</li>
+        <li><strong>Dr. Weizhi Lin</strong> · Ph.D. May 2025 · <em>"Domain-Informed Surface Manifold Data Learning and Its Applications in 3D Printing"</em> · Assistant Professor, San José State University.</li>
+        <li><strong>Dr. Yuanxiang Wang</strong> · Ph.D. May 2022 · <em>"Fabrication-Aware Machine Learning for Accuracy Control in Additive Manufacturing"</em> · Assistant Professor, Tongji University.</li>
+        <li><strong>Dr. Nathan Decker</strong> · Ph.D. March 2022 · <em>"Machine Learning-Driven Deformation Prediction and Compensation for Additive Manufacturing"</em> · Systems Engineer, ExoAnalytic Solutions.</li>
+        <li><strong>Dr. Yuan Jin</strong> · Ph.D. December 2018 · Data Scientist, Facebook, CA.</li>
+        <li><strong>Dr. He Luan</strong> · Ph.D. May 2018 · Software Engineer in Machine Learning, Google, CA.</li>
+        <li><strong>Dr. Yanqing Duanmu</strong> · Ph.D. August 2017 · Data Scientist, Apple Inc.</li>
+        <li><strong>Dr. Li Wang</strong> · Ph.D. December 2013 · Director, Liberty Mutual Insurance, Boston, MA.</li>
+        <li><strong>Dr. Lijuan Xu</strong> · Ph.D. December 2013 · Senior Analyst, Google, CA.</li>
+        <li><strong>Dr. Xi Zhang</strong> · Ph.D. December 2009 · Associate Professor, Peking University, China.</li>
+        <li><strong>Dr. Hui Wang</strong> · Ph.D. 2007 · Associate Professor, Florida State University.</li>
+      </ul>
+    </section>
+
+    <!-- ─── EDUCATION / BIO ─── -->
+    <section id="education">
+      <h2>Education</h2>
+      <ul class="edu-list">
+        <li>
+          <span class="edu-deg">Ph.D., Industrial and Operations Engineering</span>
+          <span class="edu-school">University of Michigan, Ann Arbor</span>
+        </li>
+        <li>
+          <span class="edu-deg">M.A., Statistics</span>
+          <span class="edu-school">University of Michigan, Ann Arbor</span>
+        </li>
+        <li>
+          <span class="edu-deg">Ph.D., Mechanical Engineering</span>
+          <span class="edu-school">Shanghai Jiao Tong University</span>
+        </li>
+        <li>
+          <span class="edu-deg">B.S., Mechanical Engineering</span>
+          <span class="edu-school">Shanghai Jiao Tong University</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ─── HONORS ─── -->
+    <section id="honors">
+      <h2>Selected Honors &amp; Awards</h2>
+      <ul class="honors-list">
+        <li>Fellow, Institute of Industrial and Systems Engineers (FIISE)</li>
+        <li>Fellow, American Society of Mechanical Engineers (FASME)</li>
+        <li>Senior Member, National Academy of Inventors (SMNAI) · 2024</li>
+        <li>Senior Editorial Board, <em>IEEE Transactions on Automation Science and Engineering</em> · Starting 2025</li>
+        <li>General Chair, 2025 IEEE International Conference on Automation Science and Engineering (CASE), Los Angeles</li>
+        <li>IEEE CASE 2021 Best Conference Paper Award · Wang, Ruiz &amp; Huang · Lyon, France</li>
+        <li>2022 IISE/QCRE Track Best Paper Award (with Weizhi Lin, Cesar Ruiz) · IISE Annual Conference</li>
+        <li>Plenary Speaker, 2022 IEEE CCE Conference · Mexico City</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <p>Qiang Huang · University of Southern California · <a href="https://huanglab.usc.edu" target="_blank">huanglab.usc.edu</a> · <a href="https://github.com/qualy-ai-HQ" target="_blank">qualy-ai-HQ</a></p>
+</footer>
+
+<script>
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('section[id], #about');
+  const navLinks = document.querySelectorAll('#topnav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`#topnav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
